@@ -11,7 +11,6 @@
         href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Sora:wght@100..800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="reset.css">
 </head>
 
 <body>
@@ -64,21 +63,21 @@
                     <div class="input-item">
                         <label for="number">NÚMEROS</label>
                         <div class="wrapper">
-                            <input type="text" id="number" name="number" required>
+                            <input type="number" value="1" id="number" name="number" required>
                         </div>
                     </div>
 
                     <div class="input-item">
                         <label for="from">DE</label>
                         <div class="wrapper">
-                            <input type="text" id="from" name="from" required>
+                            <input type="number" value="2" id="from" name="from" required>
                         </div>
                     </div>
 
                     <div class="input-item">
                         <label for="to">ATÉ</label>
                         <div class="wrapper">
-                            <input type="text" id="to" name="to" required>
+                            <input type="number" value="50" id="to" name="to" required>
                         </div>
                     </div>
                 </div>
@@ -91,13 +90,12 @@
                     <p>Não repetir número</p>
                 </div>
 
-                <button type="submit" class="btn-submit">
+                <button onclick="sortear()" class="btn-submit">
                     <span>SORTEAR</span>
                     <img src="assets/icons/arrow.svg">
                 </button>
+            </form>
         </div>
-        </form>
-
         <div class="questions-mobile">
             <div class="question-item">
                 <div class="question-title">
@@ -122,9 +120,7 @@
             </div>
         </div>
     </div>
-    </div>
-
-    <script src="scripts.js"></script>
+    <script src="/scripts.js"></script>
 </body>
 
 </html>
