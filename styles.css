@@ -404,6 +404,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
   }
   
   .result h2 {
@@ -416,6 +417,9 @@
     font: var(--overline);
     color: var(--content-secondary);
     margin-top: .5rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
   
   .result p {
