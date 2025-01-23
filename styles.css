@@ -129,32 +129,6 @@
     box-sizing: border-box;
   }
   
-  .result {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .result h2 {
-    font: var(--label-medium);
-    color: var(--content-primary);
-  }
-  
-  .result span {
-    display: flex;
-    font: var(--overline);
-    color: var(--content-secondary);
-    margin-top: .5rem;
-  }
-  
-  .result p {
-    color: var(--content-brand);
-    font: 800 3rem / 1.5 "Roboto Mono", monospace;
-    margin-top: 2.5rem;
-    text-align: center;
-  }
-  
   .btn-reset {
     all: unset;
     position: relative;
@@ -424,7 +398,101 @@
   .btn-submit:hover::before {
     opacity: 1;
   }
+
+  .result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
   
+  .result h2 {
+    font: var(--label-medium);
+    color: var(--content-primary);
+  }
+  
+  .result span {
+    display: flex;
+    font: var(--overline);
+    color: var(--content-secondary);
+    margin-top: .5rem;
+  }
+  
+  .result p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 2.5rem;
+  }  
+
+  /* Add new styles for the number squares */
+.number-square {
+  background: var(--accent-pink);
+  border-radius: 1.5rem;
+  width: 5rem;
+  height: 5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--display-medium);
+  color: var(--color-inverse);
+  margin: 0.5rem;
+  transform: rotate(0deg);
+  animation: appear 0.5s ease-out, rotate 2s ease-in-out;
+  perspective: 1000px;
+}
+
+.number-square::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--accent-pink);
+  border-radius: 1.5rem;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  transition: transform 1s;
+}
+
+.number-square.reveal::before {
+  transform: rotateY(180deg);
+}
+
+.number-square span {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.number-square.reveal span {
+  opacity: 1;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(180deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(360deg);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
   @media (max-width: 1100px) {
     body {
       box-sizing: border-box;
@@ -465,15 +533,6 @@
       display: flex;
       flex-direction: column;
       gap: 2.25rem;
-    }
-  }
-  
-  @keyframes spin {
-    from {
-      --angle: 0deg;
-    }
-    to {
-      --angle: 360deg;
     }
   }
   

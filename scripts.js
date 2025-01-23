@@ -1,95 +1,77 @@
-// const form = document.querySelector("form");
-
-// let drawnedNumbers = [];
-
-// const selectedNumber = document.querySelector("#number").value;
-// const selectedFrom = document.querySelector("#from").value;
-// const selectedTo = document.querySelector("#to").value;
-// const noRepeat = document.querySelector("#toggle").checked;
-
-// function drawnNumbers(from, to) {
-//   const rangeNumber = to - from + 1;
-//   const result = Math.floor(Math.random() * rangeNumber);
-//   const response = result + from;
-
-//   return response;
-// }
-
-// function validateExistRepeatedNumberAndReturn(selectedFrom, selectedTo) {
-//   const number = drawnNumbers(selectedFrom, selectedTo);
-
-//   if (!drawnedNumbers.includes(number)) {
-//     return number;
-//   }
-
-//   return validateExistRepeatedNumberAndReturn(selectedFrom, selectedTo);
-// }
-
-// function sortear(selectedNumber, selectedFrom, selectedTo, noRepeat) {
-//   for (let i = 0; i < selectedNumber; i++) {
-//     if (noRepeat) {
-//       const value = validateExistRepeatedNumberAndReturn(selectedFrom, selectedTo);
-//       drawnedNumbers.push(value);
-//     } else {
-//       const repeatedNumber = drawnNumbers(selectedFrom, selectedTo);
-//       drawnedNumbers.push(repeatedNumber);
-//     }
-//   }
-
-//   console.log(drawnedNumbers);
-// }
-
-// form.onsubmit = (event) => {
-//   event.preventDefault();
-
-//   const selectedNumber = Number(document.querySelector("#number").value);
-//   const selectedFrom = Number(document.querySelector("#from").value);
-//   const selectedTo = Number(document.querySelector("#to").value);
-//   const noRepeat = document.querySelector("#toggle").checked;
-
-//   sortear(selectedNumber, selectedFrom, selectedTo, noRepeat);
-
-//   drawnedNumbers = []
-
-// };
-
 document.querySelector(".sort-form").addEventListener("submit", (e) => {
   e.preventDefault()
-  sortearNumeros()
+  sortearNumeros().then(displayResults)
 })
 
 document.getElementById("btn-reset").addEventListener("click", () => {
   document.getElementById("form-container").style.display = "block"
   document.getElementById("result").style.display = "none"
-  document.querySelector(".sort-form").reset()
 })
 
 function sortearNumeros() {
-  const qtdNumeros = Number.parseInt(document.getElementById("number").value)
-  const min = Number.parseInt(document.getElementById("from").value)
-  const max = Number.parseInt(document.getElementById("to").value)
-  const naoRepetir = document.getElementById("toggle").checked
+  return new Promise((resolve) => {
+    const quantidade = Number.parseInt(document.getElementById("number").value)
+    const de = Number.parseInt(document.getElementById("from").value)
+    const ate = Number.parseInt(document.getElementById("to").value)
+    const permitirRepetidos = document.getElementById("toggle").checked
 
-  if (isNaN(qtdNumeros) || isNaN(min) || isNaN(max) || qtdNumeros <= 0 || min > max) {
-    alert("Por favor, preencha todos os campos corretamente.")
-    return
-  }
+    const numeros = []
 
-  const numerosSorteados = []
-  while (numerosSorteados.length < qtdNumeros) {
-    const numAleatorio = Math.floor(Math.random() * (max - min + 1)) + min
-    if (naoRepetir && numerosSorteados.includes(numAleatorio)) {
-      continue
+    if (permitirRepetidos) {
+      for (let i = 0; i < quantidade; i++) {
+        const numero = Math.floor(Math.random() * (ate - de + 1)) + de
+        numeros.push(numero)
+      }
+    } else {
+      if (quantidade > ate - de + 1) {
+        alert("A quantidade de números é maior que o intervalo disponível!")
+        resolve([])
+        return
+      }
+
+      while (numeros.length < quantidade) {
+        const numero = Math.floor(Math.random() * (ate - de + 1)) + de
+        if (!numeros.includes(numero)) {
+          numeros.push(numero)
+        }
+      }
     }
-    numerosSorteados.push(numAleatorio)
-  }
 
-  numerosSorteados.sort((a, b) => a - b)
-
-  document.getElementById("form-container").style.display = "none"
-  const resultDiv = document.getElementById("result")
-  resultDiv.style.display = "flex"
-  resultDiv.querySelector("p").textContent = numerosSorteados.join(" ")
+    resolve(numeros)
+  })
 }
 
+function displayResults(numbers) {
+  const resultContainer = document.getElementById("result-numbers")
+  resultContainer.innerHTML = ""
+
+  numbers.forEach((number, index) => {
+    const numberSquare = document.createElement("div")
+    numberSquare.className = "number-square"
+
+    const innerSquare = document.createElement("div")
+    innerSquare.className = "number-square-inner"
+
+    const frontFace = document.createElement("div")
+    frontFace.className = "number-square-front"
+
+    const backFace = document.createElement("div")
+    backFace.className = "number-square-back"
+    backFace.textContent = number
+
+    innerSquare.appendChild(frontFace)
+    innerSquare.appendChild(backFace)
+    numberSquare.appendChild(innerSquare)
+
+    resultContainer.appendChild(numberSquare)
+
+    // Delay the start of each square's animation
+    setTimeout(() => {
+      innerSquare.style.animation = "spin 1s ease-out forwards"
+    }, index * 200)
+  })
+
+  document.getElementById("form-container").style.display = "none"
+  document.getElementById("result").style.display = "block"
+}
 
